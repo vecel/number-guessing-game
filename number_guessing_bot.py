@@ -22,27 +22,38 @@ def generate_numbers():
         if is_number_correct(str(i)): valid.append(str(i))
     return valid
 
+def points(number, guess):
+    """Return points value of guess"""
+    points = 0.0
+    for i in range(len(guess)):
+        if number[i] == guess[i]:           points += 1
+        elif number.count(guess[i]) == 1:   points += 0.5
+    return points
+
 
 VALID_NUMBERS = generate_numbers()
 
 
 class NumberGuessingBot:
 
+    GUESS_MSG = "My turn, how many points get the number"
+
     def __init__(self):
         self.number = choice(VALID_NUMBERS)
         self.possibilities = VALID_NUMBERS
 
     def answer(self, player_guess):
-        """Return points value of guess"""
-        points = 0.0
-        for i in range(len(player_guess)):
-            if self.number[i] == player_guess[i]:           points += 1
-            elif self.number.count(player_guess[i]) == 1:   points += 0.5
-        return points
+        return points(self.number, player_guess)
 
-    def guess():
+    def guess(self):
         """Ask player about random, but possible, number then read answer and eliminate invalid numbers"""
-        pass
+        guess_number = choice(self.possibilities)
+        print(self.GUESS_MSG, guess_number, "?")
+        guess_value = float(input())
+        for num in self.possibilities.copy():
+            if points(num, guess_number) != guess_value:
+                self.possibilities.remove(num)
+        
 
 
         
